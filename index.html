@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Booking Curug Cisadane</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#10262b;--muted:#5a6f73;--sea:#0e5a63;--sea-d:#0a4249;--mist:#e6f1ef;--card:#fff;--line:#cfdedb;--gold:#f0b429;--err:#b3261e;--ok:#17744a}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Plus Jakarta Sans",system-ui,sans-serif;color:var(--ink);line-height:1.55;
+background:linear-gradient(90deg,rgba(230,241,239,.94) 0%,rgba(230,241,239,.8) 45%,rgba(230,241,239,.3) 100%),url("images/latar.jpg") center/cover fixed no-repeat var(--mist)}
+.wrap{max-width:960px;margin:0 auto;padding:40px 20px 64px;display:grid;grid-template-columns:1fr 1.15fr;gap:40px;align-items:start}
+.intro h1{font-size:clamp(2rem,5vw,3rem);line-height:1.08;margin:0 0 14px;font-weight:800;letter-spacing:-.02em;color:var(--sea-d)}
+.intro p{color:var(--muted);margin:0 0 22px;max-width:36ch}
+.rules{list-style:none;margin:0;padding:0;border-left:4px solid var(--gold)}
+.rules li{padding:8px 0 8px 16px;font-weight:500}
+.rules b{color:var(--sea-d)}
+.card{background:var(--card);border-radius:14px;padding:28px;box-shadow:0 10px 30px rgba(14,90,99,.12)}
+label{display:block;font-weight:700;font-size:.9rem;margin:16px 0 6px}
+input,textarea{width:100%;font:inherit;padding:11px 12px;border:1.5px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+input:focus,textarea:focus,button:focus-visible{outline:3px solid rgba(240,180,41,.55);border-color:var(--sea)}
+textarea{resize:vertical;min-height:70px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.hint{font-size:.85rem;color:var(--muted);margin-top:6px}
+.quota{margin-top:10px;display:none}
+.bar{height:10px;border-radius:99px;background:var(--mist);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--sea);transition:width .35s}
+.bar i.full{background:var(--err)}
+button{margin-top:24px;width:100%;font:inherit;font-weight:800;padding:14px;border:0;border-radius:10px;background:var(--sea);color:#fff;cursor:pointer}
+button:hover{background:var(--sea-d)}
+button:disabled{opacity:.6;cursor:wait}
+.msg{margin-top:14px;font-weight:500;display:none;padding:12px 14px;border-radius:8px}
+.msg.err{display:block;background:#fbe9e7;color:var(--err)}
+.done{display:none;text-align:left}
+.done h2{margin:0 0 8px;color:var(--ok)}
+.code{display:inline-block;margin:8px 0 14px;padding:8px 14px;background:var(--mist);border-radius:8px;font-weight:800;font-size:1.25rem;letter-spacing:.04em}
+.hp{position:absolute;left:-9999px}
+@media(max-width:800px){.wrap{grid-template-columns:1fr;gap:24px;padding-top:28px}.row{grid-template-columns:1fr}body{background-image:linear-gradient(rgba(230,241,239,.88),rgba(230,241,239,.88)),url("images/latar.jpg");background-attachment:scroll}}
+
+.cal{border:1.5px solid var(--line);border-radius:10px;padding:12px}
+.calhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.calhead strong{text-transform:capitalize}
+.calhead button{margin:0;width:36px;height:36px;padding:0;background:var(--mist);color:var(--sea-d);font-size:1.1rem}
+.calhead button:hover{background:var(--line)}
+.dow,.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.dow span{text-align:center;font-size:.75rem;font-weight:700;color:var(--muted);padding:2px 0}
+.day{margin:0;width:auto;aspect-ratio:1/1.05;padding:2px;border-radius:8px;border:1.5px solid transparent;background:#eaf6ef;color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;line-height:1.1}
+.day b{font-size:.95rem}.day small{font-size:.66rem;font-weight:700;min-height:.8em}
+.day.ok{background:#dff2e6}.day.ok small{color:var(--ok)}
+.day.low{background:#fdf0cc}.day.low small{color:#8a5a00}
+.day.full{background:#f6d9d6;color:var(--err)}
+.day.off{background:transparent;color:#a8b6b8}
+.day:disabled{cursor:not-allowed}
+.day:not(:disabled):hover{border-color:var(--sea);background:#cfeadb}
+.day.sel,.day.sel:hover{background:var(--sea);color:#fff;border-color:var(--sea)}.day.sel small{color:#fff}
+.legend{font-size:.78rem;color:var(--muted);margin-top:8px}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <section class="intro">
+    <h1>Booking Curug Cisadane</h1>
+    <p>Isi data rombongan dan pilih tanggal kunjungan. Kuota dicek langsung saat Anda memilih tanggal.</p>
+    <ul class="rules">
+      <li>Kuota <b>50 orang</b> per hari</li>
+      <li>Booking sampai <b>30 hari</b> ke depan</li>
+      <li><b>Hari Jumat tutup</b>, tidak bisa booking</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <form id="form" novalidate>
+      <label for="tanggal">Tanggal kunjungan</label>
+      <input type="hidden" id="tanggal">
+      <div class="cal">
+        <div class="calhead">
+          <button type="button" id="prev" aria-label="Bulan sebelumnya">&#8249;</button>
+          <strong id="calTitle"></strong>
+          <button type="button" id="next" aria-label="Bulan berikutnya">&#8250;</button>
+        </div>
+        <div class="dow"><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span><span>Min</span></div>
+        <div class="grid" id="calGrid"></div>
+        <div class="legend">Angka di bawah tanggal = sisa kuota. Jumat tutup.</div>
+      </div>
+      <div class="quota" id="quota">
+        <div class="bar"><i id="barfill"></i></div>
+        <div class="hint" id="quotaText"></div>
+      </div>
+
+      <label for="nama">Nama</label>
+      <input id="nama" autocomplete="name" required>
+
+      <div class="row">
+        <div><label for="hp">No HP / WhatsApp</label>
+        <input id="hp" type="tel" inputmode="tel" autocomplete="tel" placeholder="08xxxxxxxxxx" required></div>
+        <div><label for="kota">Asal kota</label>
+        <input id="kota" autocomplete="address-level2" required></div>
+      </div>
+
+      <label for="alamat">Alamat</label>
+      <textarea id="alamat" autocomplete="street-address" required></textarea>
+
+      <div class="row">
+        <div><label for="pj">Penanggung jawab rombongan</label>
+        <input id="pj" required></div>
+        <div><label for="jumlah">Jumlah peserta</label>
+        <input id="jumlah" type="number" min="1" step="1" inputmode="numeric" required></div>
+      </div>
+
+      <input class="hp" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="msg" id="msg" role="alert"></div>
+      <button type="submit" id="btn">Kirim booking</button>
+    </form>
+
+    <div class="done" id="done">
+      <h2>Booking berhasil dicatat</h2>
+      <div>Kode booking Anda:</div>
+      <div class="code" id="kode"></div>
+      <p id="ringkas"></p>
+      <p class="hint">Simpan kode ini dan tunjukkan saat kedatangan.</p>
+      <button type="button" onclick="location.reload()">Buat booking baru</button>
+    </div>
+  </section>
+</main>
+
+<script>
+// Ganti dengan URL Web App dari Google Apps Script (berakhiran /exec)
+const API_URL = 'GANTI_DENGAN_URL_WEB_APP';
+const MAX_DAYS = 30, CLOSED_DAY = 5; // 5 = Jumat
+
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2, '0');
+const fmt = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+const isClosed = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d).getDay() === CLOSED_DAY; };
+const longDate = s => { const [y, m, d] = s.split('-').map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); };
+
+const t0 = new Date(), today = new Date(t0.getFullYear(), t0.getMonth(), t0.getDate());
+const last = new Date(today); last.setDate(today.getDate() + MAX_DAYS);
+
+async function api(url, opt) {
+  const txt = await (await fetch(url, opt)).text();
+  try { return JSON.parse(txt); }
+  catch { throw new Error('Server booking belum merespons dengan benar. Periksa deployment Apps Script (akses: Anyone) dan URL berakhiran /exec.'); }
+}
+
+let remaining = null, usage = null, selected = '';
+let vy = today.getFullYear(), vm = today.getMonth();
+
+function showMsg(t) { const m = $('msg'); m.textContent = t; m.className = t ? 'msg err' : 'msg'; }
+
+function showQuota(r) {
+  remaining = r;
+  const q = $('quota'); q.style.display = 'block';
+  $('barfill').style.width = ((50 - r) / 50 * 100) + '%';
+  $('barfill').className = r <= 0 ? 'full' : '';
+  $('quotaText').textContent = longDate(selected) + ' — ' + (r <= 0 ? 'kuota penuh, pilih tanggal lain.' : 'sisa kuota ' + r + ' dari 50 orang');
+}
+
+function renderCal() {
+  const first = new Date(vy, vm, 1), pad0 = (first.getDay() + 6) % 7, dim = new Date(vy, vm + 1, 0).getDate();
+  $('calTitle').textContent = first.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+  let h = '<span></span>'.repeat(pad0);
+  for (let d = 1; d <= dim; d++) {
+    const dt = new Date(vy, vm, d), k = fmt(dt);
+    let cls = 'day', sub = '', dis = true;
+    if (dt < today || dt > last) cls += ' off';
+    else if (dt.getDay() === CLOSED_DAY) { cls += ' off'; sub = 'Tutup'; }
+    else if (usage === null) dis = false;
+    else {
+      const r = Math.max(0, 50 - (usage[k] || 0));
+      if (r <= 0) { cls += ' full'; sub = 'Penuh'; }
+      else { dis = false; cls += r <= 10 ? ' low' : ' ok'; sub = r; }
+    }
+    if (k === selected) cls += ' sel';
+    h += '<button type="button" class="' + cls + '" data-d="' + k + '"' + (dis ? ' disabled' : '') + '><b>' + d + '</b><small>' + sub + '</small></button>';
+  }
+  $('calGrid').innerHTML = h;
+  $('prev').disabled = vy === today.getFullYear() && vm === today.getMonth();
+  $('next').disabled = vy > last.getFullYear() || (vy === last.getFullYear() && vm >= last.getMonth());
+}
+
+async function loadUsage() {
+  try { const r = await api(API_URL + '?all=1'); if (r.ok) usage = r.days || {}; else showMsg(r.message); }
+  catch (e) { usage = null; showMsg(e.message); }
+  renderCal();
+  if (selected && usage) showQuota(Math.max(0, 50 - (usage[selected] || 0)));
+}
+
+$('prev').onclick = () => { vm--; if (vm < 0) { vm = 11; vy--; } renderCal(); };
+$('next').onclick = () => { vm++; if (vm > 11) { vm = 0; vy++; } renderCal(); };
+$('calGrid').addEventListener('click', e => {
+  const b = e.target.closest('.day'); if (!b || b.disabled) return;
+  selected = b.dataset.d; $('tanggal').value = selected; showMsg(''); renderCal();
+  if (usage) showQuota(Math.max(0, 50 - (usage[selected] || 0)));
+  else { remaining = null; $('quota').style.display = 'none'; }
+});
+
+renderCal(); loadUsage();
+
+$('form').addEventListener('submit', async e => {
+  e.preventDefault(); showMsg('');
+  const d = { tanggal: $('tanggal').value, nama: $('nama').value.trim(), hp: $('hp').value.trim(),
+    alamat: $('alamat').value.trim(), kota: $('kota').value.trim(), pj: $('pj').value.trim(),
+    jumlah: parseInt($('jumlah').value, 10), website: $('website').value };
+
+  if (!d.tanggal) return showMsg('Pilih tanggal kunjungan.');
+  if (isClosed(d.tanggal)) return showMsg('Hari Jumat libur, tidak bisa booking.');
+  if (!d.nama || !d.hp || !d.alamat || !d.kota || !d.pj) return showMsg('Semua kolom wajib diisi.');
+  if (!/^[0-9+\-\s]{8,16}$/.test(d.hp)) return showMsg('Nomor HP/WhatsApp tidak valid.');
+  if (!(d.jumlah >= 1)) return showMsg('Jumlah peserta minimal 1 orang.');
+  if (remaining !== null && d.jumlah > remaining)
+    return showMsg(remaining <= 0 ? 'Kuota tanggal ini penuh. Pilih tanggal lain.' : 'Sisa kuota hanya ' + remaining + ' orang. Kurangi jumlah peserta atau pilih tanggal lain.');
+
+  $('btn').disabled = true; $('btn').textContent = 'Mengirim...';
+  try {
+    const res = await api(API_URL, { method: 'POST', body: JSON.stringify(d) });
+    if (!res.ok) throw new Error(res.message);
+    $('form').style.display = 'none'; $('done').style.display = 'block';
+    $('kode').textContent = res.kode;
+    $('ringkas').textContent = d.nama + ' · ' + d.jumlah + ' peserta · ' + longDate(d.tanggal);
+  } catch (err) {
+    showMsg(err.message || 'Gagal mengirim. Periksa koneksi lalu coba lagi.'); loadUsage();
+    $('btn').disabled = false; $('btn').textContent = 'Kirim booking';
+  }
+});
+</script>
+</body>
+</html>
