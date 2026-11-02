@@ -3,14 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Booking Kunjungan Wisata</title>
+<title>Booking Curug Cisadane</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#10262b;--muted:#5a6f73;--sea:#0e5a63;--sea-d:#0a4249;--mist:#e6f1ef;--card:#fff;--line:#cfdedb;--gold:#f0b429;--err:#b3261e;--ok:#17744a}
 *{box-sizing:border-box}
-body{margin:0;font-family:"Plus Jakarta Sans",system-ui,sans-serif;color:var(--ink);background:var(--mist);line-height:1.55}
+body{margin:0;font-family:"Plus Jakarta Sans",system-ui,sans-serif;color:var(--ink);line-height:1.55;
+background:linear-gradient(90deg,rgba(230,241,239,.94) 0%,rgba(230,241,239,.8) 45%,rgba(230,241,239,.3) 100%),url("images/latar.jpg") center/cover fixed no-repeat var(--mist)}
 .wrap{max-width:960px;margin:0 auto;padding:40px 20px 64px;display:grid;grid-template-columns:1fr 1.15fr;gap:40px;align-items:start}
 .intro h1{font-size:clamp(2rem,5vw,3rem);line-height:1.08;margin:0 0 14px;font-weight:800;letter-spacing:-.02em;color:var(--sea-d)}
 .intro p{color:var(--muted);margin:0 0 22px;max-width:36ch}
@@ -37,13 +38,13 @@ button:disabled{opacity:.6;cursor:wait}
 .done h2{margin:0 0 8px;color:var(--ok)}
 .code{display:inline-block;margin:8px 0 14px;padding:8px 14px;background:var(--mist);border-radius:8px;font-weight:800;font-size:1.25rem;letter-spacing:.04em}
 .hp{position:absolute;left:-9999px}
-@media(max-width:800px){.wrap{grid-template-columns:1fr;gap:24px;padding-top:28px}.row{grid-template-columns:1fr}}
+@media(max-width:800px){.wrap{grid-template-columns:1fr;gap:24px;padding-top:28px}.row{grid-template-columns:1fr}}body{background-image:linear-gradient(rgba(230,241,239,.88),rgba(230,241,239,.88)),url("images/latar.jpg");background-attachment:scroll}
 </style>
 </head>
 <body>
 <main class="wrap">
   <section class="intro">
-    <h1>Booking kunjungan wisata</h1>
+    <h1>Booking Curug Cisadane</h1>
     <p>Isi data rombongan dan pilih tanggal kunjungan. Kuota dicek langsung saat Anda memilih tanggal.</p>
     <ul class="rules">
       <li>Kuota <b>50 orang</b> per hari</li>
