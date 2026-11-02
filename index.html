@@ -121,6 +121,7 @@ button:disabled{opacity:.6;cursor:wait}
       <div class="code" id="kode"></div>
       <p id="ringkas"></p>
       <p class="hint">Simpan kode ini dan tunjukkan saat kedatangan.</p>
+      <a id="waLink" class="wa" href="#" target="_blank" rel="noopener">Konfirmasi ke Admin via WhatsApp</a>
       <button type="button" onclick="location.reload()">Buat booking baru</button>
     </div>
   </section>
@@ -130,6 +131,7 @@ button:disabled{opacity:.6;cursor:wait}
 // Ganti dengan URL Web App dari Google Apps Script (berakhiran /exec)
 const API_URL = 'https://script.google.com/macros/s/AKfycbzirLTFXTocVvOAx6I8JhAr4F7EIcawb-RwPdrHpD_Hx-4twAaZPBWtF2hCH0oXKRQI/exec';
 const MAX_DAYS = 60, CLOSED_DAY = 5; // 5 = Jumat
+const WA_ADMIN = '6287712788550'; // nomor admin, format internasional tanpa + dan tanpa 0 di depan
 
 const $ = id => document.getElementById(id);
 const pad = n => String(n).padStart(2, '0');
@@ -222,6 +224,13 @@ $('form').addEventListener('submit', async e => {
     $('form').style.display = 'none'; $('done').style.display = 'block';
     $('kode').textContent = res.kode;
     $('ringkas').textContent = d.nama + ' · ' + d.jumlah + ' peserta · ' + longDate(d.tanggal);
+    const pesan = 'Halo Admin, saya ingin konfirmasi booking Curug Cisadane.\n\n' +
+  'Kode booking: ' + res.kode + '\n' +
+  'Tanggal kunjungan: ' + longDate(d.tanggal) + '\n' +
+  'Nama: ' + d.nama + '\n' +
+  'Penanggung jawab: ' + d.pj + '\n' +
+  'Jumlah peserta: ' + d.jumlah + ' orang';
+$('waLink').href = 'https://wa.me/' + WA_ADMIN + '?text=' + encodeURIComponent(pesan);
   } catch (err) {
     showMsg(err.message || 'Gagal mengirim. Periksa koneksi lalu coba lagi.'); loadUsage();
     $('btn').disabled = false; $('btn').textContent = 'Kirim booking';
