@@ -66,7 +66,7 @@ button:disabled{opacity:.6;cursor:wait}
     <p>Isi data rombongan dan pilih tanggal kunjungan. Kuota dicek langsung saat Anda memilih tanggal.</p>
     <ul class="rules">
       <li>Kuota <b>50 orang</b> per hari</li>
-      <li>Booking sampai <b>30 hari</b> ke depan</li>
+      <li>Booking sampai <b>60 hari</b> ke depan</li>
       <li><b>Hari Jumat tutup</b>, tidak bisa booking</li>
     </ul>
   </section>
@@ -129,7 +129,7 @@ button:disabled{opacity:.6;cursor:wait}
 <script>
 // Ganti dengan URL Web App dari Google Apps Script (berakhiran /exec)
 const API_URL = 'https://script.google.com/macros/s/AKfycbzirLTFXTocVvOAx6I8JhAr4F7EIcawb-RwPdrHpD_Hx-4twAaZPBWtF2hCH0oXKRQI/exec';
-const MAX_DAYS = 30, CLOSED_DAY = 5; // 5 = Jumat
+const MAX_DAYS = 60, CLOSED_DAY = 5; // 5 = Jumat
 
 const $ = id => document.getElementById(id);
 const pad = n => String(n).padStart(2, '0');
